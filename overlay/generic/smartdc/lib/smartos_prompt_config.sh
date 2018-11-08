@@ -530,7 +530,7 @@ promptpw()
 	key="$4"
 
 	if [[ -n ${key} ]]; then
-		preset_val=$(getanswer "${key}")
+		preset_val="$(getanswer "${key}")"
 	fi
 
 	trap "" SIGINT
@@ -538,16 +538,14 @@ promptpw()
 		val=""
 		while [ -z "$val" ]; do
 			if [[ -n ${preset_val} ]]; then
-				val=${preset_val}
+				val="${preset_val}"
 			else
 				if [ -z "$def" ]; then
 					printf "%s: " "$1"
 				else
 					printf "%s [enter to keep existing]: " "$1"
 				fi
-				stty -echo
-				read val
-				stty echo
+				IFS='' read -r -s val
 				echo
 			fi
 			if [ -n "$val" ]; then
@@ -561,7 +559,7 @@ promptpw()
 				fi
 			else
 				if [ -n "$def" ]; then
-					val=$def
+					val="$def"
 					return
 				else
 					echo "A value must be provided."
@@ -572,12 +570,10 @@ promptpw()
 		cval=""
 		while [ -z "$cval" ]; do
 			if [[ -n ${preset_val} ]]; then
-				cval=${preset_val}
+				cval="${preset_val}"
 			else
 				printf "%s: " "Confirm password"
-				stty -echo
-				read cval
-				stty echo
+				IFS='' read -r -s cval
 				echo
 			fi
 			[ -n "$cval" ] && break
