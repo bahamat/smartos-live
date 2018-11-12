@@ -524,6 +524,12 @@ promptnic()
     val=$mac_addr
 }
 
+readpw()
+{
+    IFS='' read -r -s val
+    printf '%s' "$val"
+}
+
 promptpw()
 {
 	def="$3"
@@ -545,7 +551,7 @@ promptpw()
 				else
 					printf "%s [enter to keep existing]: " "$1"
 				fi
-				IFS='' read -r -s val
+				val="$(readpw)"
 				echo
 			fi
 			if [ -n "$val" ]; then
@@ -573,7 +579,7 @@ promptpw()
 				cval="${preset_val}"
 			else
 				printf "%s: " "Confirm password"
-				IFS='' read -r -s cval
+				cval="$(readpw)"
 				echo
 			fi
 			[ -n "$cval" ] && break
