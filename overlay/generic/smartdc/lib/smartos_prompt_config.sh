@@ -526,8 +526,8 @@ promptnic()
 
 readpw()
 {
-	IFS='' read -r -s val
-	printf '%s' "$val"
+	IFS='' read -r -s pw
+	printf '%s' "$pw"
 }
 
 promptpw()
